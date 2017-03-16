@@ -1,0 +1,5 @@
+adapter: mysql2
+host: ip
+database: db
+username: user
+password: pwd

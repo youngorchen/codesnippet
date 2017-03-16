@@ -1,0 +1,2 @@
+59 23 * * * cd /data/scripts && ruby -d parse.rb >> a.log 2>&1
+55 */1 * * * cd /data/scripts && ruby parse.rb 1 >> a.log 2>&1
