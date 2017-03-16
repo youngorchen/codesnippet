@@ -71,7 +71,7 @@ test=function(len=10,qname='%23_lv2toapp%'){
 
 	dbDisconnect(con)
 }
-# source("E:\\ceyuan\\userful\\crawl_anaylyze\\ex.r")
+# source("E:\\c\\userful\\cylyze\\ex.r")
 #debug(ana)
 #ana()
 
