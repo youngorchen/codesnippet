@@ -1,0 +1,8 @@
+curl  http://ip:3334/v1/contacts/12
+[{"id":14,"userid":12,"name":"这个hh==","number":"1375666","r_id":0,"created_at":"2014-02-22T19:28:16+08:00","updated_at":"2014-02-22T19:28:29+08:00"}]
+
+curl  -d '{"userid":1,"content":[{"name":"hh","number":13756669,"r_id":0},{"name":"真bb","number":13999975666,"r_id":10 }]}' http://ip:3334/v1/contacts  -H Content-Type:application/json
+[{"name":"hh","number":13756669,"r_id":0},{"name":"真bb","number":13999975666,"r_id":10}]
+
+
+
