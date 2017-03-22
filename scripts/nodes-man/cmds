@@ -1,0 +1,37 @@
+#groupadd mfs
+#useradd -g mfs mfs
+#killall mfsmount
+
+umount /mnt/mfs
+rm -rf /mnt/mfs
+mkdir -p /mnt/mfs
+mfsmount /mnt/mfs -H mfsmaster
+chown mfs:mfs /mnt/mfs
+mount | grep mfs
+
+#ls /mnt/mfs/ga/02eaf443f9183dcade0be09570c3c741.jpg
+#ping -c 1 IP
+#/opt/apache-tomcat-7.0.47/webapps1/car
+#sh -x start_all.sh
+#cat start_all.sh
+#service vm_man status vm95 3395
+
+#yum install -y ntp
+#date
+#ntpdate asia.pool.ntp.org
+#uname -a
+#df -h
+#free -g
+#yum install redhat-lsb -y 
+#lsb_release -a
+#ifconfig -a
+
+#echo "1" |passwd root --stdin
+#killall java
+# update
+#export JAVA_HOME=/opt/jdk1.7.0_45 ; cd /opt/installation/spider/CarStatusListsDownloader; sh start.sh
+#export JAVA_HOME=/opt/jdk1.7.0_45 ; cd /opt/installation/spider/spiderDetail;  sh start.sh
+#add
+
+#export JAVA_HOME=/opt/jdk1.7.0_45 ; cd /opt/installation/spider/spiderList; sh startPage.sh
+

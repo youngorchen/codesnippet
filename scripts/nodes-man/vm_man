@@ -1,0 +1,98 @@
+#!/bin/bash 
+PATH=$PATH:/sbin:/usr/sbin:/bin:/usr/bin
+KVM=/usr/bin/vboxheadless
+ENABLED=1
+
+#VMNAME="vm4"
+
+if [ "$1" == "" ];then
+    echo "Example Usage : $0 start vm4 3390"
+    exit 0
+fi
+
+VMNAME=$2
+
+PIDFILE=/var/run/${VMNAME}.pid
+#PORT="3390"
+PORT=$3
+
+echo "VMNAME=$VMNAME,PORT=$PORT"
+
+test "$ENABLED" != "0" || exit 0
+. /etc/rc.d/init.d/functions
+
+vm_start()
+{
+    #daemon  --pid-file "$PIDFILE" \
+    $KVM -s $VMNAME -v off -e "TCP/Ports=$PORT" &
+
+    #$KVM -s $VMNAME -v on -e "TCP/Ports=$PORT" &
+    
+    return 0
+}
+
+vm_stop()
+{
+    vboxmanage controlvm $VMNAME poweroff
+    return 0
+}
+
+
+vm_status()
+{
+    vms=$(vboxmanage list runningvms 2>/dev/null|grep -o $VMNAME|grep -v grep)
+    echo $vms
+    if [ "$vms" != "" ];then
+        return 0
+    else
+        return 2
+    fi
+} 
+case "$1" in
+start)
+    echo "Starting $VMNAME"
+    vm_start
+    ret=$?
+    case "$ret" in
+    0)
+        ;;
+    1)
+        echo "pid file '$PIDFILE' found, $VMNAME not started."
+        ;;
+    2)
+        ;;
+    esac
+    exit $ret
+    ;;
+stop)
+    echo "Stopping $VMNAME"
+    vm_stop
+    ret=$?
+    exit $ret
+    ;;
+restart)
+    echo "Restarting $VMNAME"
+    vm_stop
+    vm_start
+    ;;
+status) 
+vm_status
+    ret=$?
+    case "$ret" in
+    0)
+        echo "$VMNAME is running."
+        ;;
+    1)
+        echo "$VMNAME dead, but $PIDFILE exists."
+        ;;
+    *)
+        echo "$VMNAME not running."
+        ;;
+    esac
+    exit $ret
+    ;;
+*)
+    echo "Usage: /etc/init.d/$VMNAME {start|stop|restart|status}"
+    exit 2
+    ;;
+esac 

@@ -1,0 +1,28 @@
+#!/bin/bash
+# Startup script for the mfs master
+# chkconfig: - 85 15
+# description: nginx is a World Wide Web server. It is used to serve
+
+case "$1" in
+    'start')
+        groupadd mfs
+                useradd -g mfs mfs
+                rm -rf /mnt/mfs
+                mkdir -p /mnt/mfs
+                mfsmount /mnt/mfs -H mfsmaster
+                chown mfs:mfs /mnt/mfs
+        ;;
+    'stop')
+        killall -TERM mfsmount
+        umount /mnt/mfs
+        rm -rf /mnt/mfs
+        ;;
+    'status')
+        ps -ef | grep mfsmount
+        mount
+        ;;
+    '')
+        echo "service mfsclient [start|stop|status]"
+        ;;
+esac
+
