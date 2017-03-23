@@ -1,0 +1,99 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '105'
+  issell:
+    from: "//div[@class='sold approve']/@class"
+    #已售出
+  price:
+    from: "//div[@class='grid-c-l car-price']//strong"
+    pattern: ':\s*(.*)'
+  askPrice:
+    from: "//div[@class='grid-c-l car-price']/strong/span"
+    pattern: '(.*):'
+  city:
+    from: "a.active"
+  title:
+    from: 'h1'
+  time:
+    from: "#detail_main_info div.time span[1]"
+  desc:
+    from: ".remark"
+  _tel1:
+    from: ".tel strong"
+  _tel2:
+    from: "//div[@class='main_tel']//strong[2]"
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@class='grid-c-l nav-bar']/span/a/@href"
+    imgurl:
+      from: "."
+  _li:
+    from: "//div[@class='grid-c-l car-base-info']"
+  license_date:
+    exp: _li + ''
+    pattern: '上牌时间: \s*(\S*)'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程:\s*(\S*)'
+    join: ''
+  displacement:
+    exp: _li + ''
+    pattern: '排 量:\s*(\S*)'
+    join: ''
+  _li2:
+    from: "//div[@class='grid-c-l base-info grid-c2']/table/tbody"
+  gear:
+    exp: _li2 + ''
+    pattern: '变速箱\s*(\S*)'
+    join: ''
+  pfbz:
+    exp: _li2 + ''
+    pattern: '环保标准\s*(\S*)'
+    join: ''
+  structure:
+    exp: _li2 + ''
+    pattern: '车型分类\s*(\S*)'
+    join: ''  
+  carState:
+    exp: _li2 + ''
+    pattern: '(车 况)\s*(\S*)'
+    join: ':'       
+  _li3:
+    from: "//div[@class='grid-c-l car-param grid-c2']/table/tbody"
+  color:
+    exp: _li3 + ''
+    pattern: '车辆颜色\s*(\S*)'
+    join: ''
+  innerColor:
+    exp: _li3 + ''
+    pattern: '内饰颜色\s*(\S*)'
+    join: ''    
+  usetype:
+    exp: _li3 + ''
+    pattern: '(原车用途)\s*(\S*)'
+    join: ':'
+  paper:
+    exp: _li3 + ''
+    pattern: '(过户手续)\s*(\S*)'
+    join: ':'
+  linkman:
+    from: "div[@class='tel'] span"

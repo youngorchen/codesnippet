@@ -1,0 +1,101 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '120'
+  _iurl: 
+    exp: _site + 'http://www.ft-ucar.com.cn'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: "span.price"
+  title:
+    from: ".car-details-title"
+  imglist[]:
+    from: "//div[@class='img-box']/img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@src"
+    imgurl:
+      exp: _url + 'http://www.ft-ucar.com.cn'+ _imgurl
+      join: ''
+  type:
+    from: "#logoBtn>img"
+    attr: 'src'
+  desc:
+    from: "//div[@class='car_info_list-box']"
+  seller_tel:
+    from: '.car-details-call dt'           
+  _li:
+    from: "//div[@class='mod_car_info_list']"
+  color:
+    exp: _li + ''
+    pattern: '车身颜色\s*(\S*)'
+    join: '' 
+  license_date:
+    exp: _li + ''
+    pattern: '首次上牌\s*(\S*)'
+    join: ''
+  insurance:
+    exp: _li + ''
+    pattern: '(交强险到期时间)\s*(\S*)\s*商业险到期时间'
+    join: ':'
+  usetype:
+    exp: _li + ''
+    pattern: '(原车用途)\s*(\S*)\s*车身颜色'
+    join: ':'    
+  vin:
+    exp: _li + ''
+    pattern: 'VIN\(车架号\)\s*(\S*)\s*变速方式'
+    join: ''
+  carState:
+    exp: _li + ''
+    pattern: '(车辆状态)\s*(\S*)\s*年份'
+    join: ':'        
+  insurance_expire:
+    exp: _li + ''
+    pattern: '(商业险到期时间)\s*(\S*)\s*配置信息'
+    join: ':'           
+  _li1:
+    from: "//div[@class='car-details-introduction-box']"    
+  mileage:
+    exp: _li1 + ''
+    pattern: '行驶里程\s*(\S*)\s*(\S*)'
+    join: ''  
+  gear:
+    exp: _li1 + ''
+    pattern: '变速方式\s*(\S*)'
+    join: ''   
+  displacement:
+    exp: _li1 + ''
+    pattern: '排量\s*(\S*)\s*(\S*)\s*变速方式'
+    join: ''         
+  _li2:
+    from: ".car-details-info"
+  mechant_name:
+    exp: _li2 + ''
+    pattern: '经销商名称\s*(\S*)'
+    join: ''
+  mechant_address:
+    exp: _li2 + ''
+    pattern: '看车地址\s*(\S*)'
+    join: ''
+#  sell_address:
+#    exp: _li2 + ''
+#    pattern: '看车地址\s*(\S*)'
+#    join: ''

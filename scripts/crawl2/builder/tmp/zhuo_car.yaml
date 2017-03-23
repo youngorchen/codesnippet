@@ -1,0 +1,102 @@
+website: 
+  url: 'ARGV[1]' 
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '108'
+  issell:
+    from: '.z_price_item_1 s'
+    #已售
+  price:
+    from: '.z_price_item_1 strong'
+  title:
+    from: '.z_detail_important_right h2'
+  city:
+    from: "//meta[@name='Description']/@content"
+    pattern: '地区：(.*?)，'
+  time:
+    from: "#detail_main_info div.time span[1]"
+  desc:
+    from: "div.con_rec div.sub_content p"
+  _tel1:
+    from: "//div[@class='z_detail_important_try_tel']/em"
+  _tel2:
+    from: "//div[@class='main_tel']//strong[2]"
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@class='z_detail_slide_small_img']/ul/li/img/@bigsrc"
+    imgurl:
+      from: "."
+  _carState:
+    from: "p.z_detail_important_level"
+  carState:
+    exp: _carState + ''    
+    pattern: '(车况等级)：\s*(\S*)'
+    join: ':'    
+  _li:
+    from: "//div[@class='z_detail_important_attr']/table"
+  sell_address:
+    exp: _li + ''
+    pattern: '交易地区：(\S*)'
+    join: ''
+  license_date:
+    exp: _li + ''
+    pattern: '上牌时间：\s*(\S*)'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程：\s*(\S*)'
+    join: ''
+  color:
+    exp: _li + ''
+    pattern: '车身颜色：(\S*)'
+    join: ''
+  inspection:
+    exp: _li + ''
+    pattern: '(年检到期)：\s*(\S*)'
+    join: ':'
+  insurance:
+    exp: _li + ''
+    pattern: '(交强到期)：\s*(\S*)'
+    join: ':'
+  _li2:
+    from: "//div[@class='z_detail_config_item'][2]"
+  displacement:
+    exp: _li2 + ''
+    pattern: '排量(\S*)'
+    join: ''
+  pfbz:
+    exp: _li+ ''
+    pattern: '排放标准：\s*(\S*)'
+    join: ''
+  tokenCity:
+    exp: _li+ ''
+    pattern: '(车牌归属地)：\s*(\S*)'
+    join: ':'
+  mechant_name:
+    from: "//div[@class='z_detail_important_attr']/table//tr[1]/td[1]"
+    pattern: '(.*?)（查看展厅地址）'
+  mechant_url:
+    from: '.z_attr_address'
+    attr: 'href'
+  _li3:
+    from: "//div[@class='z_detail_config_item'][3]"
+  gear:
+    exp: _li3 + ''
+    pattern: '变速器类型(\S*?)\('
+    join: ''

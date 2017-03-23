@@ -1,0 +1,90 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+  
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '103'
+  issell:
+    from: 'div.tips_shelf strong'
+  title:
+    from: "//div[@class='c_top_detil']/span"
+#    \r\n\t
+  desc:
+    from: "//span[@class='cars_info']"
+  imglist[]:
+    from: "//div[@class='items']/div/img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@src"
+      pattern: '(\S*)view'
+    imgurl:
+      exp: _url+'http://bmwusedcar.bmw.com.cn'+_imgurl + 'web'
+      join: ''
+  _li:
+    from: "//div[@class='foucs_n']/ul"
+  license_date:
+    exp: _li + ''
+    pattern: '首次上牌时间：\s*(\S*)'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程：\s*(\S*)(公里)'
+    join: ''  
+  color:
+    exp: _li + ''
+    pattern: '车身颜色：\s*(\S*)'
+    join: '' 
+  price:
+    exp: _li + ''
+    pattern: '销售价格：\s*(\S*)'
+    join: '' 
+  vintail:
+    exp: _li + ''
+    pattern: '(车架号尾号)：\s*(\S*)'
+    join: ':'           
+  _li2:
+    from: "//div[@class='car_detil_intro']"
+  linkman:
+    exp: _li2 + ''
+    pattern: '销售顾问：\s*(\S*)'
+    join: '' 
+  city:
+    exp: _li2 + ''
+    pattern: '所在城市：\s*(\S*)'
+    join: '' 
+  mechant_name:
+    exp: _li2 + ''
+    pattern: '经销商：\s*(\S*)'
+    join: ''  
+  mechant_address:
+    exp: _li2 + ''
+    pattern: '经销商地址：\s*(\S*)'
+    join: '' 
+  _mechant_url:
+    from: "//div[@class='car_detil_map']/a/@href"  
+  mechant_url:
+    exp: _site+ 'http://bmwusedcar.bmw.com.cn'+ _mechant_url
+    join: ''
+  mechant_moblie:
+    exp: _li2 + ''
+    pattern: '手机：\s*(\S*)'
+    join: ''
+  mechant_tel:
+    exp: _li2 + ''
+    pattern: '电话：\s*(\S*)'
+    join: ''
+  seller_tel:
+    from: "//div[@class='car_detil_intro']/ul/li/strong"               

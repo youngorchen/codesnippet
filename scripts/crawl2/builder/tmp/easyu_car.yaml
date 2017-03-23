@@ -1,0 +1,102 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'gbk'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '115'
+  _iurl: 
+    exp: _site + 'http://www.easy-u.com.cn/'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: ".sl-page03table033>tr>td>span"
+  imglist[]:
+    from: "//div[@id='sl_focus_pic_list']/ul/li/a"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@href"
+    imgurl:
+      exp: _url + 'http://www.easy-u.com.cn/'+ _imgurl
+      join: ''
+  _li:
+    from: "//table[@class='sl-page03table01']"
+  title:
+    exp: _li + ''
+    pattern: '车辆款式：\s*(\S*)'
+    join: ''     
+  gear:
+    exp: _li + ''
+    pattern: '变速箱类型：\s*(.*?)\n'
+    join: '' 
+  color:
+    exp: _li + ''
+    pattern: '车辆颜色：\s*(\S*)'
+    join: ''       
+  city:
+    exp: _li + ''
+    pattern: '所在地址：(.*?)\r\n'
+    join: ''     
+  displacement:
+    exp: _li + ''
+    pattern: '排气量：\s*(\S*)'
+    join: ''   
+  carSeriesType:
+    exp: _li + ''
+    pattern: '车辆款式：\s*(\S*)'
+    join: ''      
+  license_date:
+    exp: _li + ''
+    pattern: '上户日期：\s*(\S*)'
+    join: ''    
+  mileage:
+    exp: _li + ''
+    pattern: '里程：\s*(\S*)'
+    join: ''   
+  brand:
+    exp: _li + ''
+    pattern: '车辆品牌：\s*(\S*)'
+    join: ''      
+  verified:
+    exp: _li + ''
+    pattern: '二手车类型：\s*(\S*)'
+    join: ''
+  structure:
+    exp: _li + ''
+    pattern: '车辆类型：\s*(\S*)'
+    join: ''             
+  _li2:
+    from: "//table[@class='sl-page03table01'][last()]"
+  mechant_name:
+    from: "//table[@class='sl-page03table01'][last()]//a"
+  mechant_url:
+    from: "//table[@class='sl-page03table01'][last()]//a"    
+    attr: 'href'    
+  linkman:
+    exp: _li2 + ''
+    pattern: '联系人信息：\s*(\S*)'
+    join: ''     
+  seller_tel:
+    from: '//img[@style]/@onclick'
+    pattern: ".*</strong>(.*?)'"
+  mechant_tel:
+    exp: _li2+ ''
+    pattern: '二手车热线：\s*(\S*)'
+    join: ''  
+  mechant_address:
+    exp: _li2+ ''
+    pattern: '地    址：\s*(\S*)'
+    join: ''  

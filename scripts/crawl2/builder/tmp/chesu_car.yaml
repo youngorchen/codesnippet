@@ -1,0 +1,28 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '121'
+  title:
+    from: "//div[@class='car-title clearfix']/h2"
+  des:
+    from: "//div[@class='car-des']"
+  city:
+    from: ".first-card>dt"
+  imglist[]:
+    from: "//div[@class='big-pic']//@data-original"
+    imgurl:
+      from: "."

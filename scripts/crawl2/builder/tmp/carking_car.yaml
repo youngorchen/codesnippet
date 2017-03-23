@@ -1,0 +1,96 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '104'
+  issell:
+    from: 'a.btn_3'
+    #已售出
+  price:
+    from: "//div[@class='preBody clearfix']//strong|//div[@class='preBox']//strong"
+    pattern: '￥?(.*)'
+  askPrice:
+    from: "//div[@class='preBody clearfix']//strong|//div[@class='preBox']"
+    pattern: '(.*)：￥'
+  city:
+    from: "//div[@class='fl l']"
+    pattern: '所在地.*?-(\S*?)[市\d]+'
+  title:
+    from: '.caBar h3'
+#  time:
+#    from: "#detail_main_info div.time span[1]"
+  desc:
+    from: "div.caBar1_t4 p"
+  _tel1:
+    from: "//div[@class='fl blank']"
+  _tel2:
+    from: "//div[@class='main_tel']//strong[2]"
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@class='scroll fl']//ul//li//img//@uri"
+    imgurl:
+      from: "."
+  _li:
+    from: "//div[@class='buyBody']"
+#  sell_address:
+#    from: "//div[@class='fl l']"
+#    pattern: '所在地.*?-(\S*?)[市\d]+'
+  tokenCity:
+    exp: _li + ''
+    pattern: '(牌照属地)\s*(\S*)'
+    join: ':'
+  license_date:
+    exp: _li + ''
+    pattern: '上牌时间\s*(\S*)'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程\s*(\S*)'
+    join: ''
+  displacement:
+    exp: _li + ''
+    pattern: '排量\s*(\S*)'
+    join: ''
+  pfbz:
+    exp: _li + ''
+    pattern: '排放标准\s*(\S*)'
+    join: ''
+  _inspection:
+    from: "//div[@class='tx_2 fl']"
+  inspection:
+    exp: _inspection + ''
+    pattern: '(车辆年检时间)\s*(\S*)'
+    join: ':'
+  _li2:
+    from: "//div[@class='caBar1_t2']/p"
+  color:
+    exp: _li2 + ''
+    pattern: '车身颜色：(\S*)\s*内饰颜色'
+    join: ''
+  innerColor:
+    exp: _li2 + ''
+    pattern: '内饰颜色：(\S*)'
+    join: ''    
+  gear:
+    exp: _li2 + ''
+    pattern: '变速箱：(\S*?)车身颜色'
+    join: ''
+  mechant_name:
+    from: "//div[@class='fl l']"
+    pattern: '所在地\s*(\S*)'

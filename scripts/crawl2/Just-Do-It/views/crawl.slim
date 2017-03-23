@@ -1,0 +1,35 @@
+form.list action="/new/crawl" method="POST"
+  'url:
+  <p>
+  <textarea  rows="1" cols="50" name="list[url]"> 
+  = list['url']
+  </textarea>
+  <p>
+  'yaml:
+  <p>
+  <textarea  rows="20" cols="50" name="list[yaml]" >
+  = list['yaml']
+  </textarea>
+  <p>
+  <p>
+  input.button type="submit" value="Test!"
+
+.list
+  <p>
+  <p>
+  'output:
+  <p>
+  <textarea  rows="25" cols="50" name="list[output]" readonly="readonly">
+  = list['output']
+  </textarea>
+
+
+  <p>
+  <p>
+  'exception:
+  <p>
+  <textarea  rows="25" cols="50" name="list[exception]" readonly="readonly">
+  = list['exception']
+  </textarea>
+  
+

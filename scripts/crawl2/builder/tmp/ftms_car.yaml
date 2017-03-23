@@ -1,0 +1,142 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '126'
+  issell:
+    from: '.z_price_item_1 s'
+    #已售
+  price:
+    from: 'span.price'
+  title:
+    from: "//div[@class='cd-summary']/h2[@class='title clearfix']/b"
+  city:
+    from: "//div[@class='cd-summary']/h2[@class='title clearfix']/b"
+  time:
+    from: "//span[@class='gray']"
+    pattern: '(.*)(更新)+'
+  desc:
+    from: "div.postscript p"
+  seller_tel:
+    from: "//p[@class='call-num']"
+  linkman:
+    from: "//div[@class='seller-name']/span"  
+  imglist[]:
+    from: "//div[@id='clspzpDiv']/ul/li/div/span/img/@src"
+    imgurl:
+      from: "."
+  gear:
+    from: "//li[@class='cd-icon2-1']"
+  pfbz:
+    from: "//li[@class='cd-icon5-1']"
+  mileage:
+    from: "//li[@class='w95 cd-icon3-1']"
+  displacement:
+    from: "//meta[@name='description']/@content"
+    pattern: '排量：(\S*?)，'
+  displacement2:
+    from: 'p.intro'
+    pattern: '，(\S*?)，'
+  _div:
+    from: 'div.summary-txt'
+  license_date:
+    exp: _div + ''
+    pattern: '首次上牌\s*(\S*)'
+    join: ''
+  seeCarAddress:
+    exp: _div + ''
+    pattern: '看车地址\s*(\S*)'
+    join: ''
+  _carState:
+    from: "p.z_detail_important_level"
+  carState:
+    exp: _carState + ''    
+    pattern: '(车况等级)：\s*(\S*)'
+    join: ':'    
+  _li:
+    from: "//div[@class='box clearfix']"
+  color:
+    exp: _li + ''
+    pattern: '车身颜色(\S*)'
+    join: ''
+  innerColor:
+    exp: _li + ''
+    pattern: '内饰颜色(\S*)'
+    join: ''
+  brand:
+    exp: _li + ''
+    pattern: '生产厂家(\S*)'
+    join: '' 
+  series:
+    exp: _li + ''
+    pattern: '品牌车系(\S*)'
+    join: ''    
+  structure:
+    exp: _li + ''
+    pattern: '车型级别\s*(\S*)'
+    join: ''
+  insurance:
+    exp: _li + ''
+    pattern: '(交强险到期时间)\s*(\S*)'
+    join: ':'
+  insurance_expire:
+    exp: _li + ''
+    pattern: '(商业险到期时间)\s*(\S*)'
+    join: ':'
+  maintain:
+    exp: _li + ''
+    pattern: '(保养记录)(\S*)'
+    join: ':' 
+  vin:
+    exp: _li + ''
+    pattern: '(VIN（车架号）)(\S*)'
+    join: ''
+  verified:
+    exp: _li + ''
+    pattern: '是否认证\s*(\S*)'
+    join: ''
+  _paper1:
+    exp: _li + ''
+    pattern: '(行驶证)\s*(\S*)'
+    join: ':'
+  _paper2:
+    exp: _li + ''
+    pattern: '(登记证)\s*(\S*)'
+    join: ':'
+  _paper3:
+    exp: _li + ''
+    pattern: '(原始购车发票)\s*(\S*)'
+    join: ':' 
+  paper:
+    exp: _paper1+ ','+_paper2+ ','+_paper3
+    join: ''  
+  _div2:
+    from: "//div[@class='Zc_about']/ul"
+  mechant_address:
+    exp: _div2 + ''
+    pattern: '联系地址\s*(\S*)'
+    join: ''
+  mechant_tel:
+    exp: _div2 + ''
+    pattern: '联系方式\s*(\S*)'
+    join: ''
+  mechant_name:
+    from: "//div[@class='Zc_about']/ul/li/em/a"    
+  _mechant_url:
+    from: "//div[@class='Zc_about']/ul/li/em/a/@href" 
+  mechant_url:
+    exp: _site + 'http://ftms.iautos.cn' + _mechant_url
+    join: ''  

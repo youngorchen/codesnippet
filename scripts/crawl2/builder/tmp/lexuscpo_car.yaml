@@ -1,0 +1,112 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '114'
+  _iurl: 
+    exp: _site + 'http://www.lexuscpo.com.cn/'
+  issell:
+    from: "//i[@class='sold']/@class"
+    #sold
+  price:
+    from: ".infoTil>.fr"
+  title:
+    from: ".info>.til"
+  imglist[]:
+    from: "#smallImgDiv>li>a>img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@src"
+    imgurl:
+      exp: _url + 'http://www.lexuscpo.com.cn'+ _imgurl
+      join: ''
+  citystr[]:
+    from: "//p[@class='tel']/span[@class='fr']/b"
+    str:
+      from: "."
+  pricetype:
+    from: "//div[@class='car-details-main-r']//span[@class='pro-t']/@title"
+  desc:
+    from: "//div[@class='info'][last()]/table/tbody"  
+    pattern: '车况介绍\s*(\S*)'   
+  _li:
+    from: "//div[@class='info'][1]/table/tbody"
+  license_date:
+    exp: _li + ''
+    pattern: '初登日期\s*(\S*)'
+    join: ''    
+  color:
+    exp: _li + ''
+    pattern: '车身颜色\s*(\S*)'
+    join: ''
+  innerColor:
+    exp: _li + ''
+    pattern: '内饰颜色\s*(\S*)'
+    join: ''    
+  pfbz:
+    exp: _li + ''
+    pattern: '排放标准\s*符合(\S*)排放标准'
+    join: ''   
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程\s*(\S*)'
+    join: ''
+  seller_tel:
+    from: "//div[@class='deFr']/div[@class='company']/p[@class='tel']"
+#  sell_address:
+#    exp: _li + ''
+#    pattern: '所 在 地：(\S*)'
+#    join: ''          
+  inspection:
+    exp: _li + ''
+    pattern: '(年审有效期)\s*(\S*)'
+    join: ':'    
+  usetype:
+    exp: _li + ''
+    pattern: '(原车用途)\s*(\S*)'
+    join: ':'    
+  maintain:
+    exp: _li + ''
+    pattern: '(车辆保养纪录)\s*(\S*)'
+    join: ':'    
+  insurance:
+    exp: _li + ''
+    pattern: '(交强险到期时间)\s*(\S*)'
+    join: ':'    
+  time:
+    exp: _li + ''  
+    pattern: '发布日期：(\S*)'
+    join: ''    
+  mechant_name:
+    from: "//div[@class='deFr']/div[@class='company']/p/a"
+  _mechant_url:
+    from: "//div[@class='deFr']/div[@class='company']/p/a/@href"    
+  mechant_url:
+    exp: _iurl + _mechant_url   
+    join: ''    
+  _li3:
+    from: ".buys-news .name1"
+  mechant_address:
+    from: "//div[@class='deFr']/div[@class='company']/p[last()]"
+    pattern: '地址：\s*(\S*)'
+  linkman:
+    exp: _li3 + ''
+    pattern: '联系信息：\s*(\S*)'
+    join: ''     
+  mechant_tel:
+    from: "//div[@class='deFr']/div[@class='company']/p[last()-1]"
+    pattern: '销售热线：\s*(\S*)'

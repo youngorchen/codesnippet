@@ -1,0 +1,128 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '113'
+  _iurl: 
+    exp: _site + 'http://dasweltauto.faw-vw.com'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: "//div[@class='bigword']/p/b[last()]"
+  title:
+    from: "//div[@class='car-shufflingcontent']/p[1]"
+  desc:
+    from: "//div[@class='carzhaiyao']/p[last()]"
+  imglist[]:
+    from: "//div[@class='carimage1']/img/@src"
+    imgurl:
+      from: "."
+  _li:
+    from: "//div[@class='car-shufflingcontent']"
+  time:
+    exp: _li + ''  
+    pattern: '发布时间：\W*(\S*)\s*\W*'
+    join: '' 
+  transferFee:
+    from: "//div[@id='car-shufflingcontent-block']/div/p[@class='word18 zi-distance fontsizebig']"
+  mechant_address:
+    exp: _li + ''
+    pattern: '地\W*址\W*：(.*?)\s*展厅电话'
+    join: ''  
+  mechant_tel:
+    exp: _li + ''
+    pattern: '展厅电话\W*：(.*?)￥'
+    join: '' 
+  mechant_name:
+    from: "//div[@class='car-shufflingcontent']/p/a"    
+  mechant_url:
+    from: "//div[@class='car-shufflingcontent']/p/a/@href"    
+  linkman:
+    exp: _li + ''
+    pattern: '二手车经理：\s*(\S*)'
+    join: '' 
+  seller_tel:
+    exp: _li + ''
+    pattern: '联系人电话：\s*(\S*)'
+    join: '' 
+  license_date:
+    exp: _li + ''
+    pattern: '首次上牌：\s*(\S*)'
+    join: ''
+  displacement:
+    exp: _li + ''
+    pattern: '排\W*量：\s*(\S*)'
+    join: '' 
+  gear:
+    exp: _li + ''
+    pattern: '变\W*速\W*箱：\s*(.*?)\r\n'
+    join: ''               
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程：\s*(\S*)\s*(万公里)'
+    join: ''
+  color:
+    exp: _li + ''
+    pattern: '车身颜色：\s*(\S*)'
+    join: '' 
+  pfbz:
+    exp: _li+ ''
+    pattern: '排放标准：\s*(\S*)'
+    join: ''       
+        
+#  sell_address:
+#    exp: _li + ''
+#    pattern: '所 在 地：(\S*)'
+#    join: ''
+  _li2:
+    from: ".cheyuan"
+  _mechant_address:
+    exp: _li + ''
+    pattern: '地\W*址\W*：(.*?)\s*展厅电话'
+    join: ''      
+  city:
+    exp: _mechant_address + ''
+    pattern: '省?(\S*)市'
+    join: '' 
+
+#  structure:
+#    exp: _li + ''
+#    pattern: '车身结构：(\S*)'
+#    join: ''
+  usetype:
+    exp: _li2 + ''
+    pattern: '(车辆类型)：\s*(\S*)'
+    join: ':'
+  maintain:
+    exp: _li2 + ''
+    pattern: '(保养情况)：\s*(\S*)'
+    join: ':'
+  verified:
+    from: ".whiteblock>p"
+   
+  inspection:
+    exp: _li2 + ''
+    pattern: '(年检到期)：(\S*)'
+    join: ':'
+  insurance:
+    exp: _li2 + ''
+    pattern: '(保险到期)：\s*(\S*)'
+    join: ':'
+#  sell_address:
+#    exp: _li3 + ''
+#    pattern: '(拍照地点)：\s*(\S*)'
+#    join: ':'          

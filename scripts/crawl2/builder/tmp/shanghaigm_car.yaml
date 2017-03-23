@@ -1,0 +1,113 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '116'
+  title:
+    from: 'h2'
+  verified:
+    from: "//img[@id='ucar_image_watermark_author_circle']/@style"
+    pattern: 'visibility:\s*(\S*)'
+  _iurl: 
+    exp: _site + 'http://chengxin.shanghaigm.com/'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: ".buy_center_left_one_right_er_left span"
+  imglist[]:
+    from: "//div[@class='items']/ul/li/img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@bimg"
+    imgurl:
+      exp: _url + 'http://chengxin.shanghaigm.com'+ _imgurl
+      join: ''
+  pricetype:
+    from: "#none"
+  desc:
+    from: ".buy_index_cneter_left_neirong_one_one"       
+  _li:
+    from: "//div[@class='buy_center_left_one_right_si']/table"
+  city:
+    exp: _li + ''
+    pattern: '所.*在.*地：\s*(\S*)'
+    join: ''      
+  license_date:
+    exp: _li + ''
+    pattern: '上牌日期：\s*(\S*)'
+    join: ''  
+  color:
+    exp: _li + ''
+    pattern: '车辆颜色：\s*(\S*)'
+    join: ''       
+  linkman:
+    exp: _li + ''
+    pattern: '联.*系.*人：\s*(\S*)'
+    join: ''     
+  displacement:
+    exp: _li + ''
+    pattern: '排.*气.*量：\s*(\S*)'
+    join: ''   
+  time:
+    exp: _li + ''  
+    pattern: '发布日期：\s*(\S*)'
+    join: ''     
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程：\s*(\S*)'
+    join: ''      
+  gearstr:
+    from: '.buy_center_left_one_right_one' 
+  _li2:
+    from: ".buy_index_cneter_left_neirong_san_er"
+  seller_tel:
+    exp: _li2 + ''
+    pattern: '联系电话：\s*(\S*)'
+    join: ''     
+  mechant_name:
+    from: ".wenzi strong"
+  mechant_address:
+    exp: _li2 + ''
+    pattern: '公司地址：\s*(\S*)'
+    join: ''  
+  _li3:
+    from: ".buy_index_cneter_left_neirong_one"
+  tokenCity:
+    exp: _li3 + ''
+    pattern: '(车牌所在地)：\s*(\S*)'
+    join: ':'    
+  usetype:
+    exp: _li3 + ''
+    pattern: '(车辆类型)：\s*(\S*)'
+    join: ':'
+  maintain:
+    exp: _li3 + ''
+    pattern: '(维修保养记录)：\s*(\S*)'
+    join: ':'
+  inspection:
+    exp: _li3 + ''
+    pattern: '(年审情况)：\s*(\S*)'
+    join: ':'
+  insurance:
+    exp: _li3 + ''
+    pattern: '(保险情况)：\s*(\S*)'
+    join: ':'
+  carState:
+    exp: _li3 + ''
+    pattern: '(车辆状况)：\s*(\S*)'
+    join: ':'

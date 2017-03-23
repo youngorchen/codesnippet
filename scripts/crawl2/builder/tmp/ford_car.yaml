@@ -1,0 +1,128 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '110'
+  _iurl: 
+    exp: _site + 'http://www.usedcar.ford.com.cn'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: 'span.price'
+  title:
+    from: "//h2[@class='title clearfix']"
+  verified:
+    from: "i.i_rz1"
+  desc:
+    from: ".postscript"
+  _tel1:
+    from: '.carConRight h3'
+  _tel2:
+    from: '#none'
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@id='clspzpDiv']/img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@src"
+    imgurl:
+      exp:  _url +'http://www.usedcar.ford.com.cn' + _imgurl           
+  _li:
+    from: "//div[@class='h136']"
+  color:
+    exp: _li + ''
+    pattern: '车身颜色\s*(\S*)'
+    join: ''
+  pfbz:
+    exp: _li+ ''
+    pattern: '排放标准\s*(\S*)'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '里程\s*(\S*)'
+    join: ''
+  gear:
+    exp: _li + ''
+    pattern: '变速方式\s*(.*)'
+    join: ''
+  city:
+    exp: _li + ''
+    pattern: '地区.*?[省市](\S*)'
+    join: '' 
+#  sell_address:
+#    exp: _li + ''
+#    pattern: '地区\s*(\S*)'
+#    join: '' 
+  _li2:
+    from: "//div[@id='carDetailDiv']"
+  time:
+    exp: _li2 + ''  
+    pattern: '发布时间\s*(\S*)'
+    join: ''
+  license_date:
+    exp: _li2 + ''
+    pattern: '首次上牌日期\s*(\S*)'
+    join: ''
+  usetype:
+    exp: _li2 + ''
+    pattern: '(原车用途)\s*(\S*)'
+    join: ':' 
+  maintain:
+    exp: _li2 + ''
+    pattern: '(保养记录)\s*(\S*)'
+    join: ':'       
+  insurance:
+    exp: _li2 + ''
+    pattern: '(交强险到期时间)\s*(\S*)'
+    join: ':'
+  insurance_expire:
+    exp: _li2 + ''
+    pattern: '(商业险到期时间)\s*(\S*)'
+    join: ':' 
+  innerColor:
+    exp: _li2 + ''
+    pattern: '内饰颜色\s*(\S*)'
+    join: ''        
+  _li3:
+    from: "//div[@name='zhankai']"
+  displacement:
+    exp: _li3 + ''
+    pattern: '排气量\(ml\)\s*(\S*)'
+    join: ''
+  mechant_name:
+    from: ".Zc_jxs h3"
+  _mechant_url:
+    from: "//div[@class='Zc_jxs']/div[@class='inner']/h3/a/@href"
+  mechant_url:
+    exp: _iurl+ _mechant_url
+    join: ''
+  _mechant_address:
+    from: "//div[@class='Zc_jxs']/div[@class='inner']"
+  mechant_address:
+    exp: _mechant_address+ ''
+    pattern: '地址：\s*(\S*)'
+    join: ''  
+  mechant_tel:
+    from: ".Zc_jxs h4"
+  linkman:
+    exp: _mechant_address+ ''
+    pattern: ' 联系人：\s*(\S*)'
+    join: ''  

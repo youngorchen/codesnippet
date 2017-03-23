@@ -1,0 +1,91 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '111'
+  _iurl: 
+    exp: _site + 'http://www.used.landrover.com.cn'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: '.vehicleOverViewData>h3'
+    pattern: '(.*?)RMB'
+  title:
+    from: "//div[@class='overview']/h2"
+  desc:
+    from: ".postscript"
+  verified:
+    from: "//div[@id='schemeContainer']/a/@title"    
+  _tel1:
+    from: '.carConRight h3'
+  _tel2:
+    from: '#none'
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@id='mycarousel']/div/a/@href"
+    imgurl:
+      from: '.'  
+  _li:
+    from: "#vehicleInterior"
+  color:
+    exp: _li + ''
+    pattern: '(\S*)表漆'
+    join: ''
+  innerColor:
+    exp: _li + ''
+    pattern: '表漆(\S*)'
+    join: ''    
+  mileage:
+    from: "#summaryMileage"
+
+  license_date:
+    from: "#summaryRegYear"
+  vin:
+    from: "//li[@class='vin last']"
+    pattern: 'VIN:\s*(\S*)'
+  _li2:
+    from: "//div[@id='vehicleTechSpec']"    
+  displacement:
+    exp: _li2 + ''
+    pattern: '排气量\(L\)\s*(\S*)'
+    join: ''
+  mechant_name:
+    from: '#dealerDetailsSmall .dealername'
+    join: ''
+  _mechant_url:
+    from: "//div[@class='side-box']/a[@title]/@href"
+  mechant_url:
+    exp: _iurl + _mechant_url
+    join: ''
+  _merchantstr:
+    from: "#dealerDetailsSmall address"
+  mechant_address:
+    from: "#dealerDetailsSmall address"
+    pattern: '(\S*)\s*'
+  city:
+    exp: _merchantstr+ ''
+    pattern: '\s+(\S*)\s*'
+    join: ''
+#  sell_address:
+#    exp: _merchantstr+ ''
+#    pattern: '\s+(\S*)\s*'
+#    join: ''    
+  mechant_tel:
+    from: '#dealerDetailsSmall .telephone'

@@ -1,0 +1,112 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'gbk'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '118'
+  _iurl: 
+    exp: _site + 'http://ucar.dyk.com.cn'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: "span.cost"
+  title:
+    from: ".car-details h4"
+  imglist[]:
+    from: "//div[@class='details-pic']/a/img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@src"
+    imgurl:
+      exp: _url + 'http://ucar.dyk.com.cn'+ _imgurl
+      join: ''
+  askPrice:
+    from: "//div[@class='car-details-main-r']//span[@class='pro-t']/@title"
+  _li0:
+    from: "//div[@class='car-details-main-r']/ul"    
+  usetype:
+    exp: _li0 + ''
+    pattern: '(原车用途)：\s*(\S*)'
+    join: ':'
+  maintain:
+    exp: _li0 + ''
+    pattern: '(保养记录)：\s*(\S*)'
+    join: ':' 
+  desc:
+    from: "//li[@class='wid100'][last()]"       
+  _li:
+    from: "//div[@class='car-details-main-r']"
+  city:
+    exp: _li + ''
+    pattern: '所在地址：(.*?)\r\n'
+    join: ''   
+#  sell_address  
+#    exp: _li + ''
+#    pattern: '所在地址：(.*?)\r\n'
+#    join: ''   
+  license_date:
+    exp: _li + ''
+    pattern: '初登日期：\s*(\S*)'
+    join: ''    
+  seller_tel:
+    exp: _li + ''
+    pattern: '联系人电话：\s*(\S*)'
+    join: ''         
+  _li2:
+    from: "//ul[@class='gen clearfix']"
+  color:
+    exp: _li2 + ''
+    pattern: '车身颜色：\s*(\S*)'
+    join: ''
+  mileage:
+    exp: _li2 + ''
+    pattern: '行驶里程：\s*(\S*)'
+    join: ''
+  insurance:
+    exp: _li2 + ''
+    pattern: '(保险时间)：(\S*)'
+    join: ':'  
+  inspection:
+    exp: _li2 + ''
+    pattern: '(验车时间)：(\S*)'
+    join: ':'            
+  time:
+    exp: _li + ''  
+    pattern: '发布日期：(\S*)'
+    join: ''    
+  mechant_type:
+    from: ".buys-news>.title"
+    pattern: '车辆来源：\s*(\S*)'
+  mechant_name:
+    from: ".buys-news>.title"
+  _mechant_url:
+    from: ".buys-news>.car-online>a"    
+    attr: 'href'
+  mechant_url:
+    exp: _iurl+ _mechant_url
+    join: ''
+  _li3:
+    from: "//div[@class='buys-news']/p[position()=2]"
+  mechant_address:
+    from: ".buys-news .name2"
+  linkman:
+    exp: _li3 + ''
+    pattern: '[联系信息：]*\s*(\S*)'
+    join: ''     
+  ajaxscript:
+    from: ".buy-car-left script"
+    pattern: 'send(.*),callback'

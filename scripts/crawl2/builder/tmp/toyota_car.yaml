@@ -1,0 +1,104 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '117'
+  verified:
+    from: "//img[@id='ucar_image_watermark_author_circle']/@style"
+    pattern: 'visibility:\s*(\S*)'
+  _iurl: 
+    exp: _site + 'http://ucar.gac-toyota.com.cn/'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: "#ucar_label_newest_exhibit_price"
+  brand:
+    from: "#ucar_label_maker_name"
+  series:    
+    from: "#ucar_label_vehicle_name"  
+  imglist[]:
+    from: "//ul[@id='ucar_ul_small_car']/li/img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@src"
+    imgurl:
+      exp: _url + 'http://ucar.gac-toyota.com.cn/'+ _imgurl
+      join: ''
+  city:
+    exp: _li + ''
+    pattern: '所在地址：(.*?)\r\n'
+    join: ''      
+  _li:
+    from: "//table[@class='ucar_single_table ucar_link']"
+  title:
+    exp: _li + ''
+    pattern: '款式\s*(\S*)'
+    join: ''   
+  license_date:
+    exp: _li + ''
+    pattern: '初次注册时间\s*(\S*)'
+    join: ''    
+  displacement:
+    exp: _li + ''
+    pattern: '排气量\s*(\S*)'
+    join: ''   
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程\s*(\S*)'
+    join: ''      
+  color:
+    exp: _li + ''
+    pattern: '外观颜色\s*(\S*)'
+    join: '' 
+  innerColor:
+    exp: _li + ''
+    pattern: '内饰颜色\s*(\S*)'
+    join: ''        
+  gear:
+    exp: _li + ''
+    pattern: '变速方式\s*(.*?)\s*驱动方式'
+    join: ''    
+  usetype:
+    exp: _li + ''
+    pattern: '(车辆用途)\s*(\S*)'
+    join: ':' 
+  time:
+    exp: _li + ''  
+    pattern: '发布日期：(\S*)'
+    join: ''             
+  pfbz:
+    from: '#ucar_label_grade'
+    pattern: '\((.*?)\)'    
+  _carState:
+    from: "//td[@class='ucar_rating_current ucar_rating_ext']"
+  carState:
+    exp: _site+'综合评价:'+_carState + ''
+    join: ''      
+  seller_tel:
+    from: '#ucar_label_contact_mobile'	
+  linkman:
+    from: '#ucar_label_contact_name'	
+  mechant_name:
+    from: "a#ucar_link_dealer_name"
+  mechant_url:
+    from: "a#ucar_link_dealer_name"    
+    attr: 'href'    
+  mechant_address:
+    from: "#ucar_label_dealer_address"
+  mechant_tel:
+    from: "#ucar_label_dealer_tel_no" 

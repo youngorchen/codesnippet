@@ -1,0 +1,119 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '106'
+  issell:
+    from: '.z_price_item_1 s'
+    #已售
+  price:
+    from: '.nowPrice .b0'
+  title:
+    from: '.carTitleInfo h1'
+  time:
+    from: "#detail_main_info div.time span[1]"
+  desc:
+    from: "div.highlightsEidter div.txt"
+  _tel1:
+    from: "#linksCallTel"
+  _tel2:
+    from: "//div[@class='main_tel']//strong[2]"
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@class='phoneList']/a/img/@src"
+    imgurl:
+      from: "."
+  _li:
+    from: "//div[@class='carText']/dl"
+  license_date:
+    exp: _li + ''
+    pattern: '上牌[时间]*\s*(\S*)里程'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '里程\s*(\S*)\s*(\S*)排放标准'
+    join: ''
+  gear:
+    exp: _li + ''
+    pattern: '变速箱\s*(\S*)'
+    join: '' 
+  pfbz:
+    exp: _li+ ''
+    pattern: '排放标准\s*(\S*)'
+    join: '' 
+  _li2:
+    from: "//ul[@class='carfiles']"
+  brand:
+    exp: _li2 + ''
+    pattern: '品牌\s*(\S*)'
+    join: ''
+  series:
+    exp: _li2 + ''
+    pattern: '车系\s*(\S*)'
+    join: '' 
+  carLib:
+    exp: _li2 + ''
+    pattern: '车型\s*(\S*)'
+    join: ''
+  carSeriesType:
+    exp: _li2 + ''
+    pattern: '车款\s*(.*?)\r'
+    join: ''          
+  city:
+    exp: _li2 + ''
+    pattern: '归属地(\S*)'
+    join: ''
+#  sell_address:
+#    exp: _li2 + ''
+#    pattern: '归属地(\S*)'
+#    join: ''
+  displacement:
+    exp: _li2 + ''
+    pattern: '排量\s*(\S*)'
+    join: ''    
+  color:
+    exp: _li2 + ''
+    pattern: '颜色\s*(\S*)'
+    join: ''
+  structure:
+    exp: _li2 + ''
+    pattern: '类型\s*(\S*)'
+    join: ''
+  inspection:
+    exp: _li2 + ''
+    pattern: '(年检有效期至)\s*(\S*)'
+    join: ':'
+  insurance:
+    exp: _li2 + ''
+    pattern: '(交强险日期)\s*(\S*)'
+    join: ':'
+  paper:
+    exp: _li2 + ''
+    pattern: '(手续)\s*(\S*)'
+    join: ':'  
+  carState:
+    exp: _li2 + ''
+    pattern: '(车况)\s*(\S*)'
+    join: ':'   
+  vin:
+    from: "//div[@class='gap']/span[1]"
+    pattern: 'VIN码：\s*(\S*)'
+  token:
+    from: "//div[@class='gap']/span[2]"
+    pattern: '车牌号：\s*(\S*)'    

@@ -1,0 +1,136 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '11'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  price:
+    from: 'strong.main_price'
+  title:
+    from: '#detail_main_info h1'
+  city:
+    from: '#header span.oncity'
+    pattern: '(.*)(?=站)'
+  time:
+    from: "#detail_main_info div.time span[1]"
+  desc:
+    from: "div.con_rec div.sub_content p"
+  _tel1:
+    from: "//div[@class='main_tel']//strong[1]"
+  _tel2:
+    from: "//div[@class='main_tel']//strong[2]"
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  papers[]:
+    from: "div.tag em"
+    paper:
+      from: "."
+  imglist[]:
+    from: "//div[@class='car_photo']//li//img//@data-url"
+    imgurl:
+      from: "."
+  _li:
+    from: "//div[@class='basic_info']|//div[@id='basic_info']"
+  sell_address:
+    exp: _li + ''
+    pattern: '交易地区：(\S*)'
+    join: ''
+  license_date:
+    exp: _li + ''
+    pattern: '上牌时间：(\S*)'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '表显里程：(\S*)'
+    join: ''
+  gear:
+    exp: _li + ''
+    pattern: '变速箱：(\S*)'
+    join: ''
+  displacement:
+    exp: _li + ''
+    pattern: '排量：(\S*)'
+    join: ''
+  color:
+    exp: _li + ''
+    pattern: '车身颜色：(\S*)'
+    join: ''
+  structure:
+    exp: _li + ''
+    pattern: '车身结构：(\S*)'
+    join: ''
+  usetype:
+    exp: _li + ''
+    pattern: '(使用性质)：(\S*)'
+    join: ':'
+  maintain:
+    exp: _li + ''
+    pattern: '(保养情况)：(\S*)'
+    join: ':'
+  inspection:
+    exp: _li + ''
+    pattern: '(年检情况)：(\S*)'
+    join: ':'
+  insurance:
+    exp: _li + ''
+    pattern: '(交强险)：(\S*)'
+    join: ':'
+  insurance_expire:
+    exp: _li + ''
+    pattern: '(商业险到期|有无商业险)：(\S*)'
+    join: ':'
+#  tags[]:
+#    from: "//div[@class='basic_info']//ul[@class='clearfix']//li[@class='feature']/a"
+#    tag:
+#      from: "."
+  _li2:
+    from: "//div[@id='detail_main_info']//div[@class]//ul[@class='clearfix']"
+#  bxlc2:
+#    exp: _li2+ ''
+#    pattern: '表显里程(\S*)'
+#    join: ''
+#  spsj2:
+#    exp: _li2+ ''
+#    pattern: '上牌时间(\S*)'
+#    join: ''
+  pfbz:
+    exp: _li2+ ''
+    pattern: '排放标准(\S*)'
+    join: ''
+  mechant_name:
+    from: '.font div.add a'
+  mechant_url:
+    from: '.font div.add a'
+    attr: 'href'
+  _li3:
+    from: '.font div.add p'
+  mechant_address:
+    exp: _li3+ ''
+    pattern: '地址：(\S*)'
+    join: ''
+  mechant_tel:
+    exp: _li3+ ''
+    pattern: '电话：\s*(.*)'
+    join: ''
+  linkman:
+    from: 'div#trans_ad .name'
+  linkmanurl:
+    from: 'div#trans_ad .name a'
+    attr: 'href'

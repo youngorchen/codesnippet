@@ -1,0 +1,23 @@
+website: 
+  url: 'ARGV[1]' #
+  encode: 'gbk'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '5'
+  sold:
+    from: "//div[@class='offline']/img/@alt"   
+    #"下线车源" 未出售
+  exist:
+    from: "//div[@class='ophone_height']/img/@src"      

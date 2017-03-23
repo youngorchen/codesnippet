@@ -1,0 +1,123 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '107'
+  issell:
+    from: '.z_price_item_1 s'
+    #已售
+  price:
+    from: '.box-price'
+    pattern: '￥\s*(\S*)'
+  title:
+    from: "div.title"
+  city:
+    from: "//ul[@class='row-fluid list-unstyled box-list-primary']/li[4]"
+  time:
+    from: "#detail_main_info div.time span[1]"
+  _desc0:
+    from: '#none'
+  _desc1:
+    from: "//div[@id='gallery']/div[1]/div[1]/div/div/div/div/p|//div[@class='image-container'][1]/div/p[last()]"
+  _desc2:
+    from: "//div[@id='gallery']/div[1]/div[last()]/div/div/div/div[1]|//div[@class='image-container'][2]"
+  _desc3:
+    from: "//div[@class='image-container'][last()]"
+  desc:
+    exp:  _desc0 + '车主自述：<br>' + _desc1 + '<br>' + _desc2 + '<br>'  +_desc3
+  _tel1:
+    from: "span.tel"
+  _tel2:
+    from: "//div[@class='main_tel']//strong[2]"
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@id='slider']/div/img/@data-src"
+    imgurl:
+      from: "."
+  _li:
+    from: "//div[@class='row card-table']/div/table"
+  color:
+    exp: _li + ''
+    pattern: '车身颜色\s*(\S*)'
+    join: ''
+  license_date:
+    from: "//ul[@class='row-fluid list-unstyled box-list-primary']/li[1]"
+  mileage:
+    from: "//ul[@class='row-fluid list-unstyled box-list-primary']/li[2]"
+  pfbz:
+    from: "//ul[@class='row-fluid list-unstyled box-list-primary']/li[3]" 
+#  sell_address:
+#    exp: _li + ''
+#    pattern: '试驾地址：(\S*)查看地图'
+#    join: ''          
+  _li2:
+    from: "//div[@id='parameter']/div[@class]/div/div[1]/div[@class='table-responsive'][3]/table/tbody"
+  gear:
+    exp: _li2 + ''
+    pattern: '变速箱\s*(\S*)'
+    join: ''
+  _li3:
+    from: "//div[@id='parameter']/div/div/div[2]/div[@class='table-responsive'][2]/table/tbody" 
+  displacement:
+    exp: _li3 + ''
+    pattern: '排量\(mL\)\s*(\S*)'
+    join: ''    
+  structure:
+    exp: _li + ''
+    pattern: '车身结构：(\S*)'
+    join: ''
+  usetype:
+    exp: _li2 + ''
+    pattern: '(使用性质)\s*(\S*)'
+    join: ':'
+  maintain:
+    exp: _li + ''
+    pattern: '(是否4S店保养)\s*(\S*)'
+    join: ':'
+  inspection:
+    exp: _li + ''
+    pattern: '(年检有效期至)\s*(\S*)|(年检到期时间)\s*(\S*)'
+    join: ':'
+  insurance:
+    exp: _li + ''
+    pattern: '(交强险到期时间)\s*(\S*)'
+    join: ':'
+  insurance_expire:
+    exp: _li + ''
+    pattern: '(商业险到期时间)\s*(\S*)'
+    join: ':'
+  paper:
+    exp: _li + ''
+    pattern: '(有无购车发票)\s*(\S*)'
+    join: ':'
+  ownerCity:
+    exp: _li + ''
+    pattern: '归属地\s*(\S*)'
+    join: ''
+  linkman:
+    from: '.owner-info strong'
+  checkError:
+    from: "//div[@class='content'][1]/div/div[@class='row-fluid title'][1]/p"
+  _fee:
+    from: "//table[@class='box-service']/tr/td/table"
+  transferFee:
+    exp: _fee + ''
+    pattern: '\s*(免过户费)(\S*)\s*'
+    join: ''
+    

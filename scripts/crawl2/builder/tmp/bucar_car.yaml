@@ -1,0 +1,78 @@
+website: 
+  url: 'ARGV[1]' #
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '123'
+  issell:
+    from: "//div[@class='issell']/@class"   
+  price:
+    from: "div.detail_price_left"
+  title:
+    from: '.main-top>h1'
+  time:
+    from: 'div.push-time' 
+  imglist[]:
+    from: "//div[@id='onsale_pics']/img/@data-original"
+    imgurl:
+      from: "."
+  desc:
+    from: "//div[@class='detail-body']"       
+  _li:
+    from: "//div[@class='car_detail clearfix']"
+  license_date:
+    exp: _li + ''
+    pattern: '\s*(\S*)\s*首次上牌'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '首次上牌\s*(\S*)\s*行驶里程'
+    join: ''   
+  city:
+    exp: _li + ''
+    pattern: '行驶里程\s*(\S*)归属地'
+    join: ''   
+#  sell_address:
+#    exp: _li + ''
+#    pattern: '行驶里程\s*(\S*)归属地'
+#    join: ''   
+  pfbz:
+    exp: _li + ''
+    pattern: '归属地\s*(\S*)\s*排放标准'
+    join: '' 
+  _li2:
+    from: "//div[@class='param-content']"
+  color:
+    exp: _li2 + ''
+    pattern: '车辆颜色\s*(\S*)'
+    join: ''
+  gear:
+    exp: _li2 + ''
+    pattern: '变速箱\s*(\S*)\s*[变速箱档位]?'
+    join: '' 
+  displacement:
+    exp: _li2 + ''
+    pattern: '排量\(L\)\s*(\S*)'
+    join: ''            
+  seller_tel:
+    from: 'div.phone-num'  
+  mechant_name:
+    from: "//shop-head/@nickname"
+  mechant_address:
+    from: "//shop-head/@place"  
+  _mechant_url:
+    from: "//shop-head/@store"  
+  mechant_url:
+    exp: _site + 'http://www.bucar.com/shop/list.htm?store=' + _mechant_url

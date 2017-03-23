@@ -1,0 +1,25 @@
+website: 
+  url: 'ARGV[1]' #
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '6'
+  sold:
+    from: "//div[@class='cd-call-sold phone-show']/@class"
+    #cd-call-sold phone-show
+  overtime:
+    from: "//div[@class='cd-call-exceed phone-show']/@class"
+  exist:
+    from: "//div[@class='summary-main clearfix']/div[@class='summary-txt']//p[@class='call-num' or @class='call-num call-num2']"    

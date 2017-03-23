@@ -1,0 +1,99 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '101'
+  _iurl: 
+    exp: _site + 'http://www.starelite.com.cn'
+  issell:
+    from: 'div.tips_shelf strong'
+    #非常抱歉，该车辆已下架！
+  title:
+    from: 'h1.carh1'
+  city:
+    from: '#header span.oncity'
+    pattern: '(.*)(?=站)'
+  time:
+    from: "#detail_main_info div.time span[1]"
+  desc:
+    from: "div.cy_info"
+    pattern: '车况介绍\s*(.*)'
+  _tel1:
+    from: "//div[@class='sell_phone clears']//span[1]"
+  _tel2:
+    from: "//div[@class='main_tel']//strong[2]"
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  imglist[]:
+    from: "//div[@class='cy_info']//img"
+    _url:
+      from: "."
+    _imgurl:
+      from: "./@src"
+    imgurl:
+      exp:  _url +'http://www.starelite.com.cn' + _imgurl 
+  _li:
+    from: "//ul[@class='carul clears']"
+  price:
+    exp: _li + ''
+    pattern: '当前星睿价格：￥(\S*)'
+    join: ''
+  license_date:
+    exp: _li + ''
+    pattern: '上牌时间：(\S*)'
+    join: ''
+  mileage:
+    exp: _li + ''
+    pattern: '行驶里程：(\S*)'
+    join: ''
+  gear:
+    exp: _li + ''
+    pattern: '变速箱：(\S*)'
+    join: ''
+  displacement:
+    exp: _li + ''
+    pattern: '排量：(\S*)'
+    join: ''
+  color:
+    exp: _li + ''
+    pattern: '外观颜色：(\S*)'
+    join: ''
+  innerColor:
+    exp: _li + ''
+    pattern: '内饰颜色：(\S*)'
+    join: ''    
+  mechant_name:
+    from: "//div[@class='agency clears']//span[1]"
+  _mechant_url:
+    from: "a.map"
+    attr: 'href'
+  mechant_url:
+    exp: _iurl + _mechant_url
+  mechant_address:
+    from: "//div[@class='agency clears']//i"
+    pattern: '\s*（(.*)）'
+  _li3:
+    from: 'ul.otherlist li'
+  mechant_tel:
+    exp: _li3+ ''
+    pattern: '展厅电话：\s*(.*)'
+    join: ''
+  linkman:
+    from: "//div[@class='sell_phone clears']//i"
+    pattern: '\s*（(.*)）'
+

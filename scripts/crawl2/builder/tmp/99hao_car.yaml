@@ -1,0 +1,134 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '125'
+  issell:
+    from: "//div[@class='sold-out clearfix']/a"
+    #去看看更多同款车辆>>
+  city:
+    from: "//div[@class='car-nav']/h2/a[2]"
+    pattern: '(\S*)二手车'    
+  price:
+    from: "//div[@class='price']/span[@class='num']"
+  title:
+    from: "//div[@class='car-particular-right clearfix']/h2"
+  desc:
+    from: "//div[@class='report-main message']"
+  imglist[]:
+    from: "//ul[@id='img_R_L_List']/li/a/img/@src"
+    imgurl:
+      from: "."
+  _li:
+    from: "//div[@class='report-main survey']"
+  time:
+    exp: _li + ''  
+    pattern: '发布时间：\W*(\S*)\s*\W*'
+    join: '' 
+  mechant_address:
+    from: "//p[@class='car-site'][span[@class='til'][contains(text(),'看车地址')]]"
+    pattern: '看车地址：\s*(\S*)'
+#  mechant_tel:
+#    from: "span#phone_2"
+  mechant_name:
+    from: "//p[@class='car-site'][span[@class='til'][contains(text(),'所属商家')]]" 
+    pattern: '所属商家：\s*(\S*)'   
+  _mechant_url:
+    from: "//p[@class='car-site']/a/@href"    
+    pattern: '(/all/\S*)'
+  mechant_url:
+    exp: _site + 'http://www.99haoche.com/quanguo'+ _mechant_url  
+#  seller_tel:
+#    from: "span#phone_2"
+  license_date:
+    from: "//div[@class='date']/ul/li[1]"
+  brand:
+    exp: _li + ''
+    pattern: '生产厂家\s*(\S*)'
+    join: ''
+  series:
+    exp: _li + ''
+    pattern: '品牌车系\s*(.*?)\s*内饰颜色'
+    join: ''
+  _table:
+    from: "//div[@class='report-main info']/table//th[contains(text(),'底盘参数')]/../.."
+  gear:
+    exp: _table + ''
+    pattern: '变速器形式\s*(.*?)\s*排挡位置'
+    join: ''               
+  mileage:
+    from: "//div[@class='date']/ul/li[2]"
+  pfbz:
+    from: "//div[@class='date']/ul/li[3]"     
+  structure:
+    exp: _li + ''
+    pattern: '车型级别\s*(\S*)'
+    join: ''
+#  _li2:
+#    from: "//div[@class='box clearfix']"
+  color:
+    exp: _li + ''
+    pattern: '车身颜色\s*(\S*)'
+    join: '' 
+  innerColor:
+    exp: _li + ''
+    pattern: '内饰颜色\s*(\S*)'
+    join: ''    
+  usetype:
+    exp: _li + ''
+    pattern: '(使用性质)\s*(\S*)'
+    join: ':'
+  maintain:
+    exp: _li + ''
+    pattern: '(保养记录)\s*(\S*)'
+    join: ':'
+  vin:
+    exp: _li + ''
+    pattern: '(VIN（车架号）)\s*(\S*)'
+    join: ''
+  verified:
+    exp: _li + ''
+    pattern: '是否认证\s*(\S*)'
+    join: ''
+  _paper1:
+    exp: _li + ''
+    pattern: '(行驶证)\s*(\S*)'
+    join: ':'
+  _paper2:
+    exp: _li + ''
+    pattern: '(登记证)\s*(\S*)'
+    join: ':'
+  _paper3:
+    exp: _li + ''
+    pattern: '(原始购车发票)\s*(\S*)'
+    join: ':' 
+  paper:
+    exp: _paper1+ ','+_paper2+ ','+_paper3
+    join: ''     
+  insurance:
+    exp: _li + ''
+    pattern: '(交强险到期日期)\s*(\S*)'
+    join: ':'
+  insurance_expire:
+    exp: _li + ''
+    pattern: '(商业险到期日期)\s*(\S*)'
+    join: ':'
+  _li3:
+    from: "//div[@class='car-particular-right clearfix']/h2"    
+  displacement:
+    exp: _li3 + ''
+    pattern: '\s*([1-9]\d*\.\d*L|0\.\d*[1-9]\d*L)|([1-9]\d*\.\d*T|0\.\d*[1-9]\d*T)'
+    join: ''    

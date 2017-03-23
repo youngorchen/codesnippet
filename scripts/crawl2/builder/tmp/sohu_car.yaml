@@ -1,0 +1,27 @@
+website: 
+  url: 'ARGV[1]' #
+  encode: 'gb2312'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '9'
+  sold:
+    from: "//p[@class='ysspan']"
+    #此车已售出
+  overtime:
+    from: "//div[@class='yc_overtime']/@class"   
+    #yc_overtime"信息已过期" 
+  exist:
+    from: "//div[@class='fl h24-tips']/p[@class='phone']/text()"
+    #过期也有这个

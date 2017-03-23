@@ -1,0 +1,28 @@
+website: 
+  url: 'ARGV[1]' #
+  encode: 'gb2312'
+  retry-delay: '3' #secs
+  #retry: '1' #times
+  max-time: '20' #secs
+  proxy: 'ARGV[2]' #'116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  min_file_size: 1000
+  #output-location: ''
+  #output: 'db' #or 'stdout'
+
+car_info:
+  _site:
+    from: '#none'
+  site: 
+    exp: _site + '7'
+  notfound:
+    from: "//div[@class='wrong_page']/p"
+    #非常抱歉，您访问的车辆信息不存在！
+  sold:
+    from: "//div[@class='plaint-list']"   
+    #"此车于2014年07月23日售出"
+  exist:
+    from: "//div[@class='code-tx']/div[@class='num']/span/text()"    
+    
+     
