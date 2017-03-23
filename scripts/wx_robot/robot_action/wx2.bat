@@ -1,0 +1,1 @@
+ruby -W0 send_robot2.rb 3

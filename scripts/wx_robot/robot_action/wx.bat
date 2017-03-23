@@ -1,0 +1,1 @@
+ruby -W0 wx_robot.rb 3
