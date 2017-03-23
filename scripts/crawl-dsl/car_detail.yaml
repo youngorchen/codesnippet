@@ -1,0 +1,74 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  retry: '3' #times
+  max-time: '20' #secs
+  #proxy: '116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  #output: 'db' #or 'stdout'
+
+car_detail:
+  seller:
+    from: 'div#trans_ad//div.name a'
+  seller_mechant_name:
+    from: 'div.store_add p a'
+    attr: 'title'
+  title:
+    from: 'div#detail_main_info h1 b'
+  price:
+    from: 'strong.main_price'
+  standard:
+    from[2]: 'div#detail_main_info div.para//li dl dd strong'
+  _tel1:
+    from[0]: 'div#detail_main_info//div.main_tel//strong'
+  _tel2:
+    from[1]: 'div#detail_main_info//div.main_tel//strong'
+  seller_tel:
+    exp: _tel1 + _tel2
+    pattern: '\d+'
+    join: ''
+  region:
+    from[0]: 'div.basic_info//div.sub_content//li'
+    pattern: '交易地区：(.*)'
+  license_date:
+    from[1]: 'div.basic_info//div.sub_content//li'
+    pattern: '上牌时间：(.*)'
+  mileage:
+    from[2]: 'div.basic_info//div.sub_content//li'
+    pattern: '表显里程：(.*)'
+  gear:
+    from[3]: 'div.basic_info//div.sub_content//li'
+    pattern: '变速箱：(.*)'
+  displacement:
+    from[4]: 'div.basic_info//div.sub_content//li'
+    pattern: '排量：(.*)'
+  color:
+    from[5]: 'div.basic_info//div.sub_content//li'
+    pattern: '车身颜色：(.*)'
+  structure:
+    from[6]: 'div.basic_info//div.sub_content//li'
+    pattern: '车身结构：(.*)'
+  ops:
+    from[7]: 'div.basic_info//div.sub_content//li'
+    pattern: '使用性质：(.*)'
+  maintain:
+    from[8]: 'div.basic_info//div.sub_content//li'
+    pattern: '保养情况：(.*)'
+  check:
+    from[9]: 'div.basic_info//div.sub_content//li'
+    pattern: '年检情况：(.*)'
+  insurance:
+    from[10]: 'div.basic_info//div.sub_content//li'
+    pattern: '交强险：(.*)'
+  insurance_expire:
+    from[11]: 'div.basic_info//div.sub_content//li'
+    pattern: '商业险到期：(.*)'
+  desc:
+    from[0]: 'div.con_rec//div.sub_content//p'
+  photo[]:
+    from: 'div.car_photo//li'
+    pic: 
+      from: 'img'
+      attr: 'data-url'

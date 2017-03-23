@@ -1,0 +1,15 @@
+website: 
+  url: 'ARGV[1]' #'list.htm' #http://cs.273.cn/p301/ or http://cs.273.cn/car/
+  encode: 'utf-8'
+  #cache:
+  #proxy
+  #agent
+
+#object first!
+
+list:
+  cars[]:
+    from: 'div.car_filter_list ul li'
+    car_url:
+      from: 'div.info h4 a'
+      attr: 'href' 
