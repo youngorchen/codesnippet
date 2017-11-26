@@ -30,8 +30,8 @@ end
 def handle_error
 	puts "error:#{$!} at:#{$@}"
 	dump "EXCEPTION!!!",$root_file
-	`touch #{$root_file}.error`
-	puts
+	`echo > #{$root_file}.error`
+	puts "genertating .... #{$root_file}.error ++++++++++++++++++++++++++++++++"
 
 end
 
@@ -59,7 +59,7 @@ def dump(*item)
 end
 
 def get_web_file(url,cfg)
-	fn = url.gsub(/\//,'_').gsub(/:|\./,'_').scan(/http(.*)/)[0][0]
+	fn = url.gsub(/\//,'_').gsub(/:|\./,'_').gsub(/\?/,'_').scan(/http(.*)/)[0][0]
 	#puts fn
 
 	#curl -x 116.53.8.105:2386 --max-time 5 --retry 10 --retry-delay 1 -C - -o a.html http://www.baidu.com

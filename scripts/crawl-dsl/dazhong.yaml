@@ -1,0 +1,19 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'gb2312'
+  retry-delay: '3' #secs
+  retry: '3' #times
+  max-time: '20' #secs
+  #proxy: '116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  #output: 'stdout' #or 'db'
+
+list:
+  car_detail[]:
+    from: 'ul.name-list.dealer-list li'
+    seller:
+      from: 'a'
+    url:
+      from: 'a'
+      attr: 'href'

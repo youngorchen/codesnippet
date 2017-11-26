@@ -1,0 +1,28 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'gb2312'
+  retry-delay: '3' #secs
+  retry: '3' #times
+  max-time: '20' #secs
+  #proxy: '116.53.8.105:2386'
+  #duan-dian: 'false'
+  output: 'file' 
+  #output: 'stdout' #or 'db'
+
+list:
+  car_detail[]:
+    from: 'div.agency//div.agency-tx'
+    seller:
+      from: 'h3/a'
+    url:
+      from: 'h3/a'
+      attr: 'href'
+    contact:
+      from[0]: 'div'
+      pattern: '联系人：(.*)'
+    telphone:
+      from[1]: 'div'
+      pattern: '电.*话：(.*)'
+    addr:
+      from[2]: 'div'
+      pattern: '地.*址： (.*)'
