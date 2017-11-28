@@ -1,0 +1,31 @@
+website: 
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'gb2312'
+  retry-delay: '3' #secs
+  retry: '3' #times
+  max-time: '20' #secs
+  #proxy: '116.53.8.105:2386'
+  #duan-dian: 'false'
+  #output: 'file' 
+  output: 'stdout' #or 'db'
+
+list:
+  gp_detail[]:
+    from: 'table#dt_1.tab1/tbody/tr'
+    code:
+      from[0]: 'td/a'
+    name:
+      from[1]: 'td/a'
+    close:
+      from[0]: 'td/span'
+    delta:
+      from[1]: 'td/span'
+    total_buy:
+      from[2]: 'td/span'
+    buy:
+      from[3]: 'td/span'
+    sell:
+      from[4]: 'td/span'
+    total_amount:
+      from[5]: 'td/span'
+
