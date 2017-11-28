@@ -1,4 +1,6 @@
 # using firefox --> copy --> css selector
+# http://data.eastmoney.com/hsgt/top10.html
+# ruby builder.rb hgt.yaml http://data.eastmoney.com/hsgt/top10.html
 
 website: 
   url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
