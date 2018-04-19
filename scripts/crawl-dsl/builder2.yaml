@@ -1,0 +1,53 @@
+# using firefox --> copy --> css selector
+# http://data.eastmoney.com/hsgt/top10.html
+# ruby builder2.rb builders.yaml https://www.google.com/search?q=nz+trade+center&oq=nz+trade+center
+# %%% is the delimter
+
+website:
+  url: 'ARGV[1]' #'http://hf.273.cn/car/10390340.html'
+  encode: 'utf-8'
+  headers: 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8%%%
+            Accept-Language: en-US;q=0.9,en;q=0.2%%%
+            Cookie: 1P_JAR=2018-4-18-22; NID=128=WicBGDMB19WvuetYH81UzM4oOfdAIaYW1K3CbiN0uzO0sJOphl985de7T357DK7SuFlRVm4k69uQ3sKVM1TbW3R8cxk9HzgKpyuXDfo8r-zLagl3efWiZE2i-39ZoWa3n6UX8ersrdacMEfXBg; DV=Q8h8DiGkKjkdwDWaKe0v0OiGEL6vLRY%%%
+            Host: www.google.co.nz%%%
+            Referer: https://www.google.co.nz/%%%
+            User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0'
+  retry-delay: '3' #secs
+  retry: '3' #times
+  max-time: '20' #secs
+  #proxy: '116.53.8.105:2386'
+  #duan-dian: 'false'
+  #output: 'file'
+  output: 'stdout' #or 'db'
+
+list:
+  detail_addr:
+    from: '.ifM9O > div:nth-child(2)'
+    pattern: 'Address:\s*(.*?)Hours:'
+  detail_hours:
+    from: '.ifM9O > div:nth-child(2)'
+    pattern: 'Hours:\s*(.*?)Hours'
+  detail_phone:
+    from: '.ifM9O > div:nth-child(2)'
+    pattern: 'Phone:\s*(.*)Website:'
+  detail_web:
+    from: '.ifM9O > div:nth-child(2)'
+    pattern: 'Website:\s*(.*)Category:'
+
+  address:
+    from: '.i4J0ge > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > span:nth-child(2)'
+  phone:
+    from: '.zdqRlf > span:nth-child(1) > span:nth-child(1)'
+  hours:
+    from: '.TLou0b'
+  web:
+    from: 'div.hZCf6e:nth-child(1) > a:nth-child(1)'
+    attr: 'href'
+  mark:
+    from: '.YhemCb'
+  company:
+    from: '.kno-ecr-pt > span:nth-child(1)'
+  starts:
+    from: '.rtng'
+  reviews:
+    from: '.r-imYgNrfCGmps > a:nth-child(1) > span:nth-child(1)'
