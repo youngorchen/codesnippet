@@ -1,0 +1,69 @@
+# using firefox --> copy --> css selector
+# http://data.eastmoney.com/hsgt/top10.html
+# ruby builder2.rb hgt.yaml https://www.google.com/search?q=nz+trade+center&oq=nz+trade+center
+# %%% is the delimter
+
+website:
+  url: 'ARGV[1]' #'http://hyhealth.co.nz/?product-8421.html'
+  encode: 'utf-8'
+  retry-delay: '3' #secs
+  retry: '3' #times
+  max-time: '20' #secs
+  #proxy: '116.53.8.105:2386'
+  #duan-dian: 'false'
+  #output: 'file'
+  output: 'stdout' #or 'db'
+
+list:
+  nav:
+    from: '.Navigation'
+    #pattern: 'Address:\s*(.*?)Hours:'
+  pic:
+    from: '.goods-detail-pic'
+    attr: 'bigpicsrc'
+  title:
+    from: '.goodsname'
+  product_no:
+    from: '.goodsprops > li:nth-child(1)'
+  product_weight:
+    from: '#goodsWeight'
+  brand:
+    from: '.goodsprops > li:nth-child(4) > a:nth-child(2)'
+  price:
+    from: '.goods-price > li:nth-child(2) > span:nth-child(2)'
+  info:
+    from: '#goods-intro > p:nth-child(1)'
+  user_guide:
+    from: '#goods-intro > p:nth-child(3)'
+  peiliao:
+    from: '#goods-intro > p:nth-child(5) > font:nth-child(1)'
+  info_pic1:
+    from: '#goods-intro > img:nth-child(1)'
+    attr: 'src'
+  info_pic2:
+    from: '#goods-intro > div:nth-child(2) > img:nth-child(1)'
+    attr: 'src'
+  info_pic3:
+    from: '#goods-intro > div:nth-child(3) > img:nth-child(1)'
+    attr: 'src'
+  info_pic4:
+    from: '#goods-intro > div:nth-child(4) > img:nth-child(1)'
+    attr: 'src'
+  info_pic5:
+    from: '#goods-intro > div:nth-child(5) > img:nth-child(1)'
+    attr: 'src'
+  info_pic6:
+    from: '#goods-intro > div:nth-child(6) > img:nth-child(1)'
+    attr: 'src'
+  info_pic7:
+    from: '#goods-intro > div:nth-child(7) > img:nth-child(1)'
+    attr: 'src'
+  info_pic8:
+    from: '#goods-intro > div:nth-child(8) > img:nth-child(1)'
+    attr: 'src'
+  info_pic9:
+    from: '#goods-intro > div:nth-child(9) > img:nth-child(1)'
+    attr: 'src'
+  info_pic10:
+    from: '#goods-intro > div:nth-child(10) > img:nth-child(1)'
+    attr: 'src'
